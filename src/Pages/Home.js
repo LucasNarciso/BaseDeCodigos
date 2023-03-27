@@ -104,7 +104,7 @@ function Home(){
                     <BarraControle>
                         <DivLogoTitulo>
                             <Logo src={logo}></Logo>
-                            <Titulo>Base de Códigoss</Titulo>
+                            <Titulo>Base de Códigos</Titulo>
                         </DivLogoTitulo>
                         <DivBotoes>
                             <BotaoBarraControle onClick={() => {goToPerfilPage(navigate)}}>
