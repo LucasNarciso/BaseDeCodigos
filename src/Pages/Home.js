@@ -30,12 +30,9 @@ function Home(){
     const cookies = new Cookies();
     const [modal, setModal] = useState([])
     const [loading, setLoading] = useState([]);
+    const [cardsResultado, setCardsResultado] = useState([ {key: Math.random(), descRes: "Descrição resumida", descDet: "Descrição mais detalhada do código", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000"} ]);
 
-    useEffect(() => {
-
-        userLogged()    
-
-    }, [])
+    useEffect(() => {       userLogged()        }, [])
 
     const userLogged = async () => {
 
@@ -63,11 +60,7 @@ function Home(){
         }
     }
 
-    const renderLoading = loading.map((load)=>{
-        return(
-            <LoadingFullscreen key={load.key}/>
-        )
-    })
+    const renderLoading = loading.map((load)=>{     return( <LoadingFullscreen key={load.key}/> )    })
 
     const renderModalCodigo = modal.map((mod) => {
 
@@ -82,17 +75,15 @@ function Home(){
         )
     });
 
-    function showModal(tipo){
-        setModal([{ key: "modal", tipo: tipo }]);
-    }
+    function showModal(tipo){       setModal([{ key: "modal", tipo: tipo }]);       }
 
-    function exitModal(){
-        setModal([]);
-    }
+    function exitModal(){       setModal([]);       }
 
-    const teste = (valor) => {
-        console.log("PASSOU ISSO NO PARAMETRO: " + valor)
-    }
+    const renderCardsResultado = cardsResultado.map((card)=>{
+        return(
+            <CardResultado key={card.key} desc={card.descRes} linguagem={card.ling} upload={card.upl} modificado={card.mod}/>
+        )
+    })
 
     return(
         <>  
@@ -137,17 +128,7 @@ function Home(){
 
                     <DivExternaResultadoPesquisa>
                         <DivInternaResultadoPesquisa>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
+                            {renderCardsResultado}
                             <BarraPage>
                                 <BotaoBarraPage><svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5L1.5 8L8 14.5" stroke="#404040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></BotaoBarraPage>
                                 1...10
