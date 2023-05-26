@@ -44,7 +44,7 @@ export const JanelaDescCodigo = styled.div`
     gap: 10px;
     color: #404040;
     width: clamp(330px, 100%, 645px);
-    height: clamp(330px, 100%, 560px);
+    height: 520px;
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
     transition: 0.2s ease-in-out;
 `
@@ -203,7 +203,7 @@ export const DivExternaResultadoPesquisa = styled.div`
     padding: 15px;
     gap: 10px;
     width: 100%;
-    height: clamp(330px, 100%, 560px);
+    height: 390px;
     background-color: #FFFFFF;
     border-width: 2px 0px;
     border-style: solid;
@@ -211,7 +211,6 @@ export const DivExternaResultadoPesquisa = styled.div`
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     transition: 0.2s ease-in-out;
-    overflow: auto;
 `
 
 export const DivInternaResultadoPesquisa = styled.div`
@@ -219,9 +218,11 @@ export const DivInternaResultadoPesquisa = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
     width: 100%;
+    height: 290px;
     transition: 0.2s ease-in-out;
+    padding-right: 5px;
+    overflow: auto;
 
     @media screen and (max-width: 400px){
         max-height: 300px;
@@ -270,4 +271,12 @@ export const BotaoBarraPage = styled.button`
         cursor: pointer;
         background-color: #C4371C;        
     }
+`
+
+export const DivTesteResultado = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 10px;
 `

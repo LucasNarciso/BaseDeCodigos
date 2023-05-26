@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 import axios from "axios";
 
 //STYLED COMPONENTES
-import { BarraControle, Fundo, JanelaDescCodigo, JanelaPrincipal, Titulo, Logo, DivLogoTitulo, DivBotoes, BotaoBarraControle, DivBarraPesquisa, BotaoFiltro, BarraPesquisa, InputPesquisa, BotaoPesquisa, DivExternaResultadoPesquisa, DivInternaResultadoPesquisa, BarraPage, BotaoBarraPage } from "../Styles/Home_Style";
+import { BarraControle, Fundo, JanelaDescCodigo, JanelaPrincipal, Titulo, Logo, DivLogoTitulo, DivBotoes, BotaoBarraControle, DivBarraPesquisa, BotaoFiltro, BarraPesquisa, InputPesquisa, BotaoPesquisa, DivExternaResultadoPesquisa, DivInternaResultadoPesquisa, BarraPage, BotaoBarraPage, DivTesteResultado } from "../Styles/Home_Style";
 import { GlobalStyle } from "../Styles/GlobalStyle";
 
 //ASSETS
@@ -30,19 +30,28 @@ function Home(){
     const cookies = new Cookies();
     const [modal, setModal] = useState([])
     const [loading, setLoading] = useState([]);
+    const [codeInfo, setCodeInfo] = useState([ {} ]);
+    const [resultadoSearch, setresultadoSearch] = useState([
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 1", descDet: "Descrição mais detalhada do código 1", ling: "JS", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 1"},
+        {descRes: "Descrição resumida 2", descDet: "Descrição mais detalhada do código 2", ling: "PHP", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 2"}
+    ]);
 
-    useEffect(() => {
-
-        userLogged()    
-
-    }, [])
+    useEffect(() => {       userLogged()        }, [])
 
     const userLogged = async () => {
 
         let userValue = cookies.get('CodeBaseLoggedUser');
         let passValue = cookies.get('CodeBaseLoggedPass');
 
-        if( userValue != "" && userValue != " " && passValue != "" && passValue != " "){
+        if( userValue !== "" && userValue !== " " && passValue !== "" && passValue !== " "){
             setLoading([{ key: Math.random() }])
 
             await axios.get(baseURL + "action=login&usuario=" + userValue + "&senha=" + passValue, {
@@ -52,7 +61,7 @@ function Home(){
             }).then((resposta) =>{
                 setLoading([]);
                 console.log(resposta.data)
-                if(resposta.data != true){
+                if(resposta.data !== true){
                     goToLoginPage(navigate);
                 }
 
@@ -63,11 +72,7 @@ function Home(){
         }
     }
 
-    const renderLoading = loading.map((load)=>{
-        return(
-            <LoadingFullscreen key={load.key}/>
-        )
-    })
+    const renderLoading = loading.map((load)=>{     return( <LoadingFullscreen key={load.key}/> )    })
 
     const renderModalCodigo = modal.map((mod) => {
 
@@ -78,21 +83,31 @@ function Home(){
             tituloModal = "Adicionar Código"
         }
         return(
-            <ModalCodigo key={mod.key} titulo={tituloModal} tipo={"Adicionar"} function={()=>{exitModal()}}/>
+            <ModalCodigo key={Math.random()} titulo={tituloModal} tipo={"Adicionar"} function={()=>{exitModal()}}/>
         )
     });
 
-    function showModal(tipo){
-        setModal([{ key: "modal", tipo: tipo }]);
-    }
+    function showModal(tipo){       setModal([{ key: "modal", tipo: tipo }]);       }
 
-    function exitModal(){
-        setModal([]);
-    }
+    function exitModal(){       setModal([]);       }
 
-    const teste = (valor) => {
-        console.log("PASSOU ISSO NO PARAMETRO: " + valor)
-    }
+    const renderCardsResultado = resultadoSearch.map((card)=>{
+        return(
+            <CardResultado key={Math.random()} func={()=>{setCodeInfo([ {desc:card.descDet, code:card.code, ling: card.ling} ])}} desc={card.descRes} linguagem={card.ling} upload={card.upl} modificado={card.mod}/>
+        )
+    })
+    
+    const renderCode = codeInfo.map((code)=>{
+        return(
+            <Codigo key={Math.random()} linguagem={code.ling} code={code.code} func={showModal.bind(this)}/>
+        )
+    })
+
+    const renderDescCode = codeInfo.map((code)=>{
+        return(
+            <DescCodigo key={Math.random()} descDetalhada={code.desc}/>
+        )
+    })
 
     return(
         <>  
@@ -137,34 +152,22 @@ function Home(){
 
                     <DivExternaResultadoPesquisa>
                         <DivInternaResultadoPesquisa>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <CardResultado desc={"Descrição resumida do código"} linguagem={"JS"} upload={"Upload: 00/00/0000"} modificado={"Modificado: 00/00/0000"}/>
-                            <BarraPage>
-                                <BotaoBarraPage><svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5L1.5 8L8 14.5" stroke="#404040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></BotaoBarraPage>
-                                1...10
-                                <BotaoBarraPage><svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L7.5 8L1 14.5" stroke="#404040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></BotaoBarraPage>
-                            </BarraPage>
+                            <DivTesteResultado>
+                                {(resultadoSearch.length !== 0) ? renderCardsResultado : <p>Realize uma pesquisa</p>}
+                            </DivTesteResultado>
                         </DivInternaResultadoPesquisa>
+                        <BarraPage>
+                            <BotaoBarraPage><svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5L1.5 8L8 14.5" stroke="#404040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></BotaoBarraPage>
+                            1...10
+                            <BotaoBarraPage><svg width="9" height="16" viewBox="0 0 9 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L7.5 8L1 14.5" stroke="#404040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></BotaoBarraPage>
+                        </BarraPage>
                     </DivExternaResultadoPesquisa>
                     
                 </JanelaPrincipal>
 
                 <JanelaDescCodigo>
-                    <DescCodigo descDetalhada={"Teste de Descrição Detalhada do código. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "}>
-
-                    </DescCodigo>
-                    <Codigo func={showModal.bind(this)}>
-
-                    </Codigo>
+                    {renderDescCode}
+                    {renderCode}
                 </JanelaDescCodigo>
                 {renderModalCodigo}
                 {renderLoading}

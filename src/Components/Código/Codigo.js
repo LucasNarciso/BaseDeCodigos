@@ -8,13 +8,13 @@ function Codigo (props) {
             <BarraCodigo>
                 <TituloCodigo>Código</TituloCodigo>
                 <DivLinguagemBotao>
-                    <DivLinguagem> JS </DivLinguagem>
+                    <DivLinguagem> {props.linguagem} </DivLinguagem>
                     <BotaoCodigo onClick={()=> {props.func('editar')}}> EDITAR </BotaoCodigo>
                     <BotaoCodigo> COPIAR </BotaoCodigo>
                 </DivLinguagemBotao>
             </BarraCodigo>
             <DivInternaCodigo>
-                asjdkajshdklas
+                {(props.code !== undefined) ? props.code : <p> {"</>"}</p>}
             </DivInternaCodigo>
         </DivExternaCodigo>
     )

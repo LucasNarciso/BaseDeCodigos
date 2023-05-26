@@ -24,7 +24,7 @@ export const Router = () => {
                 <Route path={"/perfil"} element={<Perfil/>}/>
                 <Route path={"/graficos"} element={<Graficos/>}/>
                 <Route path={"*"} element={<Erro/>}/>
-                {/* <Route path={"/detalhes/:Id"} element={<Detalhe_Pokemon/>}/> */}
+                {/* <Route path={"/detalhes/"} element={<Detalhe_Pokemon/>}/> */}
             </Routes>
         </HashRouter>
     )

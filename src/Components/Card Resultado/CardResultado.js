@@ -5,7 +5,7 @@ import { DatasResultadoPesquisa, DescResultadoPesquisa, DivResultadoPesquisa } f
 
 function CardResultado (props) {
     return(
-        <DivResultadoPesquisa>
+        <DivResultadoPesquisa onClick={props.func}>
             <DescResultadoPesquisa>
                 <p>{props.desc}</p>
                 <p>{props.linguagem}</p>

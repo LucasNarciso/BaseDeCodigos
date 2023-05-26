@@ -32,7 +32,7 @@ function Graficos(){
             )
         }else {
             return(
-                <p>Selecione um gráfico no menu da esquerda</p>
+                <p>Selecione um gráfico</p>
             )
         }
         

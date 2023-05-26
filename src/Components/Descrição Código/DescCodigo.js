@@ -11,8 +11,8 @@ function DescCodigo (props) {
     const renderDesc = desc.map((desc) => {
 
         return(
-            <DivDescTexto id={"DivDescTexto"}>
-                {desc.desc}
+            <DivDescTexto key={Math.random()} id={"DivDescTexto"}>
+                {(desc.desc !== undefined) ? desc.desc : <p>Selecione um código</p>}
             </DivDescTexto>
         )
     });
@@ -20,7 +20,6 @@ function DescCodigo (props) {
     function showDesc() {
 
         if (document.getElementById('DivDescTexto')) {
-            //document.getElementById('DivDescExterna').removeChild(document.getElementById('DivDescTexto'))
             setDesc([]);
         }else{
             setDesc([{key: Math.random(), desc: props.descDetalhada }]);
