@@ -44,33 +44,14 @@ function Home(){
         {descRes: "Descrição resumida 2", descDet: "Descrição mais detalhada do código 2", ling: "PHP", upl: "Upload: 00/00/0000", mod: "Modificado: 00/00/0000", code:"teste 2"}
     ]);
 
-    useEffect(() => {       userLogged()        }, [])
+    useEffect(() => {
 
-    const userLogged = async () => {
-
-        let userValue = cookies.get('CodeBaseLoggedUser');
-        let passValue = cookies.get('CodeBaseLoggedPass');
-
-        if( userValue !== "" && userValue !== " " && passValue !== "" && passValue !== " "){
-            setLoading([{ key: Math.random() }])
-
-            await axios.get(baseURL + "action=login&usuario=" + userValue + "&senha=" + passValue, {
-                headers: {
-                "Content-Type": "application/json"
-                }
-            }).then((resposta) =>{
-                setLoading([]);
-                console.log(resposta.data)
-                if(resposta.data !== true){
-                    goToLoginPage(navigate);
-                }
-
-            }).catch((err) => {
-                setLoading([]);
-                console.log(err.menssage)
-            })
+        if(!cookies.get('CodeBaseLoggedUser')){
+            goToLoginPage(navigate);
         }
-    }
+
+    }, [])
+
 
     const renderLoading = loading.map((load)=>{     return( <LoadingFullscreen key={load.key}/> )    })
 
@@ -109,6 +90,30 @@ function Home(){
         )
     })
 
+    const pesquisarCodigo = async () => {
+        let pesquisa = document.getElementById('CampoPesquisa').value;
+
+        if( pesquisa !== "" && pesquisa !== " "){
+            setLoading([{ key: Math.random() }])
+
+            await axios.get(baseURL + "?action=pesquisa&userID=" + cookies.get('CodeBaseLoggedUser') + "&coluna=" + 6 + "&pesquisa=" + pesquisa, {
+                headers: {
+                "Content-Type": "application/json"
+                }
+            }).then((resposta) =>{
+                setLoading([]);
+                console.log(resposta.dados)
+                if(resposta.dados.exec !== true){
+                    //asdasdas
+                }
+
+            }).catch((err) => {
+                setLoading([]);
+                console.log(err.menssage)
+            })
+        }
+    }
+
     return(
         <>  
             <GlobalStyle/>
@@ -142,9 +147,9 @@ function Home(){
                             <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.20208 10.6858V15.7857C9.20208 16.4563 8.69408 17 8.06736 17H6.93264C6.30592 17 5.79792 16.4563 5.79792 15.7857V10.6858L0.199109 1.89836C-0.314439 1.09229 0.225011 0 1.13665 0H13.8633C14.775 0 15.3144 1.09229 14.8009 1.89836L9.20208 10.6858Z" fill="#D9D9D9"/></svg>
                         </BotaoFiltro>
                         <BarraPesquisa>
-                            <InputPesquisa>
+                            <InputPesquisa id="CampoPesquisa">
                             </InputPesquisa>
-                            <BotaoPesquisa>
+                            <BotaoPesquisa onClick={()=>{pesquisarCodigo()}}>
                                 <svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M16.8701 17.7208C16.5082 17.3589 15.9344 17.3338 15.5081 17.6168C14.0045 18.6151 12.2003 19.1967 10.2602 19.1967C5.01349 19.1967 0.760193 14.9434 0.760193 9.69666C0.760193 4.44995 5.01349 0.196655 10.2602 0.196655C15.5069 0.196655 19.7602 4.44995 19.7602 9.69666C19.7602 11.6367 19.1786 13.441 18.1803 14.9446C17.8973 15.3709 17.9224 15.9447 18.2843 16.3066L23.0739 21.0962C23.4644 21.4867 23.4644 22.1198 23.0739 22.5104C22.6833 22.9009 22.0502 22.9009 21.6597 22.5104L16.8701 17.7208ZM17.7602 9.69666C17.7602 13.8387 14.4023 17.1967 10.2602 17.1967C6.1181 17.1967 2.76019 13.8387 2.76019 9.69666C2.76019 5.55457 6.1181 2.19666 10.2602 2.19666C14.4023 2.19666 17.7602 5.55457 17.7602 9.69666Z" fill="white"/></svg>
                             </BotaoPesquisa>
                         </BarraPesquisa>

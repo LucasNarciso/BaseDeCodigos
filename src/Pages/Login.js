@@ -28,37 +28,11 @@ function Login(){
 
     useEffect(() => {
 
-        if(cookies.get('CodeBaseLoggedUser') && cookies.get('CodeBaseLoggedPass')){
-            userLogged();
+        if(cookies.get('CodeBaseLoggedUser')){
+            goToHomePage(navigate);
         }  
 
     }, [])
-
-    const userLogged = async () => {
-
-        let userValue = cookies.get('CodeBaseLoggedUser');
-        let passValue = cookies.get('CodeBaseLoggedPass');
-
-        if( userValue != "" && userValue != " " && passValue != "" && passValue != " "){
-            setLoading([{ key: Math.random() }])
-
-            await axios.get(baseURL + "action=login&usuario=" + userValue + "&senha=" + passValue, {
-                headers: {
-                "Content-Type": "application/json"
-                }
-            }).then((resposta) =>{
-                setLoading([]);
-                console.log(resposta.data)
-                if(resposta.data === true){
-                    goToHomePage(navigate);
-                }
-
-            }).catch((err) => {
-                setLoading([]);
-                console.log(err.menssage)
-            })
-        }
-    }
 
 
     const login = async () => {
@@ -68,20 +42,18 @@ function Login(){
         if( inputUserValue != "" && inputUserValue != " " && inputPassValue != "" && inputPassValue != " "){
             setLoading([{ key: Math.random() }])
 
-            await axios.get(baseURL + "action=login&usuario=" + inputUserValue + "&senha=" + inputPassValue, {
+            await axios.get(baseURL + "?action=login&usuario=" + inputUserValue + "&senha=" + inputPassValue, {
                 headers: {
                 "Content-Type": "application/json"
                 }
             }).then((resposta) =>{
                 setLoading([]);
-                if(resposta.data === true){
-                    cookies.set('CodeBaseLoggedUser', inputUserValue, { path: '/', expires: new Date(Date.now()+(30*60000))});
-                    cookies.set('CodeBaseLoggedPass', inputPassValue, { path: '/', expires: new Date(Date.now()+(30*60000))});
+                if(resposta.data.exec === true){
+                    cookies.set('CodeBaseLoggedUser', resposta.data.dados, { path: '/', expires: new Date(Date.now()+(30*60000))});
                     goToHomePage(navigate);
                 }else{
-                    document.getElementById('LoginErroResposta').innerHTML = resposta.data;
+                    document.getElementById('LoginErroResposta').innerHTML = resposta.data.mensagem;
                 }
-
             }).catch((err) => {
                 setLoading([]);
                 console.log(err.menssage)
